@@ -69,6 +69,12 @@ A fresh continuous three-visit run used real timers to reach both receiver outco
 
 A warm-cache regression reproduced the missing receiver by loading web.5 assets, serving web.6 in the same browser context, and observing that its unchanged asset URLs reused the cached scripts. Upgrading that context to web.7 fetched all fourteen scripts/styles under the new revision and restored the receiver and readable name-entry surface.
 
+## Browser revision 116.1-web.8
+
+The intro requests video only after its bypass and motion checks. Playback starts the timing of the prologue and a bounded still-image path handles unavailable or slow video. The skip link works before script setup. The CRT defers story audio until interaction and the procedural room renders once after the intro. Name entry accepts ordinary editing until submission, and mobile does not receive forced input focus.
+
+The two utility panels share larger touch targets and independent scrolling. Opening one closes the other. Saved progress stays grouped in the BiB menu. The passage can return during loading and offers a retry after a timeout. Fourteen intro cases and eleven passage cases passed in isolated JavaScript tests. Utility tests covered panel dismissal, preferences, backup access, and coalesced room rendering.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
