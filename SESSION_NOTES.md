@@ -75,6 +75,10 @@ The intro requests video only after its bypass and motion checks. Playback start
 
 The two utility panels share larger touch targets and independent scrolling. Opening one closes the other. Saved progress stays grouped in the BiB menu. The passage can return during loading and offers a retry after a timeout. Fourteen intro cases and eleven passage cases passed in isolated JavaScript tests. Utility tests covered panel dismissal, preferences, backup access, and coalesced room rendering.
 
+## Browser revision 116.1-web.9
+
+Live review found a horizontal scrollbar in the docked name panel caused by a one-pixel overflow. The panel clips inline overflow and keeps vertical scrolling.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
