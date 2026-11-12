@@ -3,33 +3,71 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  workflow_call:
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    inputs:
+      runtime_sha256:
+        description: SHA-256 of the locally verified runtime ZIP
+        required: true
+        type: string
+permissions: {}
 concurrency:
   group: pages-deployment
   cancel-in-progress: false
 jobs:
-  deploy:
+  prepare:
     runs-on: ubuntu-latest
+    # Reading a draft release requires repository push access.
+    permissions:
+      contents: write
+    outputs:
+      ready: ${{ steps.runtime.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Verify and extract the runtime
+        id: runtime
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_SHA256: ${{ inputs.runtime_sha256 }}
+          RELEASE_ID: "443345171"
+        run: |
+          set -euo pipefail
+          draft=$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID")
+          jq -e '.draft == true and .tag_name == "v116.1-runtime"' <<< "$draft" >/dev/null
+          asset=$(jq -c '[.assets[] | select(.name == "BiB_Web_Runtime_v116_1.zip" and .state == "uploaded")] | first // empty' <<< "$draft")
+          if [[ -z "$asset" ]]; then
+            if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+              echo "::error::The runtime ZIP is missing from the staging draft."
+              exit 1
+            fi
+            echo "The runtime ZIP has not been staged. Keeping the current Pages deployment."
+            exit 0
+          fi
+          asset_id=$(jq -er '.id' <<< "$asset")
+          digest=$(jq -er '.digest' <<< "$asset")
+          [[ "$digest" =~ ^sha256:[a-f0-9]{64}$ ]]
+          if [[ -n "$EXPECTED_SHA256" && "$digest" != "sha256:$EXPECTED_SHA256" ]]; then
+            echo "::error::GitHub's runtime digest differs from the verified local digest."
+            exit 1
+          fi
+          archive="$RUNNER_TEMP/BiB_Web_Runtime_v116_1.zip"
+          gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$archive"
+          python3 tools/extract_pages_runtime.py "$archive" "${digest#sha256:}" _site
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-pages-artifact@v4
+        if: steps.runtime.outputs.ready == 'true'
+        with:
+          path: _site
+  deploy:
+    if: needs.prepare.outputs.ready == 'true'
+    needs: prepare
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: main
-          persist-credentials: false
-      - name: Test repository setup
-        run: python3 -m unittest discover -s tests_repo -v
-      - name: Assemble static website
-        run: python3 tools/build_pages.py
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: _site
-      - name: Deploy
+      - uses: actions/deploy-pages@v4
         id: deployment
-        uses: actions/deploy-pages@v4

@@ -166,12 +166,12 @@ class SetupTests(unittest.TestCase):
             self.assertEqual(result, status)
             self.assertEqual(status["static_payload_files"], len([p for p in (root / "_site").rglob("*") if p.is_file()]))
 
-    def test_import_dispatches_main_branch_workflows(self):
-        workflow = (ROOT / ".github/workflows/import-baseline.yml").read_text()
-        self.assertIn('gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref main', workflow)
-        self.assertIn('gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main', workflow)
-        self.assertIn('actions: write', workflow)
-        self.assertNotIn('git push --force', workflow)
+    def test_public_pages_only_deploys_runtime(self):
+        workflow = (ROOT / ".github/workflows/pages.yml").read_text()
+        self.assertIn("tools/extract_pages_runtime.py", workflow)
+        self.assertIn("BiB_Web_Runtime_v116_1.zip", workflow)
+        self.assertNotIn("import_baseline.py", workflow)
+        self.assertFalse((ROOT / ".github/workflows/import-baseline.yml").exists())
 
 if __name__ == "__main__": unittest.main()
 
