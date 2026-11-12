@@ -1,0 +1,21 @@
+Remote sandbox tests of importer/site-builder fixtures, not the original application.
+test_bad_hash_does_not_import (test_setup.SetupTests.test_bad_hash_does_not_import) ... ok
+test_broken_import_does_not_fake_ready (test_setup.SetupTests.test_broken_import_does_not_fake_ready) ... ok
+test_import_and_idempotent_resume_preserve_edits (test_setup.SetupTests.test_import_and_idempotent_resume_preserve_edits) ... ok
+test_import_rejects_collision (test_setup.SetupTests.test_import_rejects_collision) ... ok
+test_import_rejects_duplicate_case_paths (test_setup.SetupTests.test_import_rejects_duplicate_case_paths) ... ok
+test_import_rejects_missing_source (test_setup.SetupTests.test_import_rejects_missing_source) ... ok
+test_import_rejects_private_directory (test_setup.SetupTests.test_import_rejects_private_directory) ... ok
+test_import_rejects_symlink (test_setup.SetupTests.test_import_rejects_symlink) ... ok
+test_import_rejects_traversal_before_writing (test_setup.SetupTests.test_import_rejects_traversal_before_writing) ... ok
+test_pending_site_is_honest (test_setup.SetupTests.test_pending_site_is_honest) ... ok
+test_ready_site_copies_only_public_web (test_setup.SetupTests.test_ready_site_copies_only_public_web) ... ok
+test_safe_archive_path (test_setup.SetupTests.test_safe_archive_path) ... ok
+test_site_status_json_count (test_setup.SetupTests.test_site_status_json_count) ... ok
+test_unsafe_archive_paths (test_setup.SetupTests.test_unsafe_archive_paths) ... ok
+test_workflows_do_not_use_pull_request_target (test_setup.SetupTests.test_workflows_do_not_use_pull_request_target) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 8.989s
+
+OK

@@ -1,0 +1,46 @@
+name: Import baseline
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: import-baseline
+  cancel-in-progress: false
+jobs:
+  import:
+    if: github.event_name == 'workflow_dispatch' || github.event.release.tag_name == 'v116.1-baseline'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - name: Download the original release archive
+        if: hashFiles('BASELINE_IMPORT.json') == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/dnf-baseline"
+          gh release download v116.1-baseline --repo "$GITHUB_REPOSITORY" --pattern BiB_v116_1_Windows_x64.zip --dir "$RUNNER_TEMP/dnf-baseline"
+      - name: Verify and import source
+        if: hashFiles('BASELINE_IMPORT.json') == ''
+        run: python3 tools/import_baseline.py "$RUNNER_TEMP/dnf-baseline/BiB_v116_1_Windows_x64.zip"
+      - name: Validate the imported site
+        run: |
+          python3 -m unittest discover -s tests_repo -v
+          python3 tools/build_pages.py
+      - name: Commit the source import
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add native_source studio_source licenses reports README.txt Run_Diagnostics.cmd BASELINE_IMPORT.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Import verified BiB 116.1 and Signal Studio 2.1 baseline'
+            git push origin HEAD:main
+          fi
+  pages:
+    needs: import
+    uses: ./.github/workflows/pages.yml

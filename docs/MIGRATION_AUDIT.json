@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-12",
+  "archive": "BiB_v116_1_Windows_x64.zip",
+  "archive_bytes": 158375826,
+  "archive_sha256": "68a98401d026e56c1c33cac71907c8e3d277ad398157acb69ff252d6ed38bba3",
+  "archive_crc": "passed in chat container",
+  "archive_members": 234,
+  "eligible_source_files": 232,
+  "eligible_source_bytes": 91132272,
+  "expanded_bytes": 171246174,
+  "all_member_paths_valid": true,
+  "no_symlinks": true,
+  "remote_source_transfer": "pending user archive upload",
+  "limited_pattern_scan": "No token/key matches in inspected text. Existing PayPal recipient email present. See PUBLICATION_REVIEW.md.",
+  "application_tests_rerun_this_migration": false
+}

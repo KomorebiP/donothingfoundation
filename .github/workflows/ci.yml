@@ -1,0 +1,64 @@
+name: Checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      imported: ${{ steps.source.outputs.imported }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest discover -s tests_repo -v
+      - run: python3 tools/build_pages.py
+      - id: source
+        shell: bash
+        run: |
+          if [ -f BASELINE_IMPORT.json ] && [ -f studio_source/requirements-dev.txt ]; then
+            echo 'imported=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'imported=false' >> "$GITHUB_OUTPUT"
+            echo 'Application tests skipped: baseline source has not been imported.'
+          fi
+  python:
+    needs: setup
+    if: needs.setup.outputs.imported == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r studio_source/requirements-dev.txt
+      - run: python -m pytest tests -q
+        working-directory: studio_source
+  native:
+    needs: setup
+    if: needs.setup.outputs.imported == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: native_source/go.mod
+          cache: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - run: python native_source/tools/prepare_assets.py --suite studio_source
+      - run: go test ./...
+        working-directory: native_source
