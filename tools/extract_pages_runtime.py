@@ -29,6 +29,14 @@ REQUIRED = ROOT_FILES | {
     PurePosixPath("downloads/Go_LICENSE.txt"),
     WINDOWS_APP,
 }
+BROWSER_UPDATE = {
+    "site-status.json",
+    "web/bib/index.html",
+    "web/bib/home.html",
+    "web/bib/v116.js",
+    "web/bib/legacy/legacy.css",
+    "web/bib/legacy/legacy_03.js",
+}
 
 
 def runtime_files(archive):
@@ -64,11 +72,15 @@ def runtime_files(archive):
     return paths
 
 
-def extract(source, sha256, destination):
+def verify_digest(source, sha256):
     with source.open("rb") as binary:
         actual = hashlib.file_digest(binary, "sha256").hexdigest()
     if actual != sha256:
         raise ValueError("Runtime ZIP checksum mismatch")
+
+
+def extract(source, sha256, destination):
+    verify_digest(source, sha256)
     with ZipFile(source) as archive:
         paths = runtime_files(archive)
         status = json.loads(archive.read("site-status.json"))
@@ -86,10 +98,39 @@ def extract(source, sha256, destination):
     return len(paths)
 
 
+def apply_browser_update(source, sha256, destination):
+    verify_digest(source, sha256)
+    with ZipFile(source) as archive:
+        entries = archive.infolist()
+        names = {info.filename for info in entries}
+        if names != BROWSER_UPDATE or len(entries) != len(names):
+            raise ValueError("The browser update must contain the six expected runtime files")
+        for info in entries:
+            mode = stat.S_IFMT(info.external_attr >> 16)
+            if mode not in (0, stat.S_IFREG) or info.file_size > 2 * 1024**2:
+                raise ValueError(f"Unexpected browser update entry {info.filename!r}")
+        files = {info.filename: archive.read(info) for info in entries}
+    current = json.loads((destination / "site-status.json").read_text())
+    updated = json.loads(files["site-status.json"])
+    metadata = {"browser_revision", "browser_changes"}
+    if ({key: value for key, value in updated.items() if key not in metadata}
+            != {key: value for key, value in current.items() if key not in metadata}):
+        raise ValueError("The browser update changes the base runtime status")
+    if any(not (destination / name).is_file() for name in files):
+        raise ValueError("A browser update target is missing from the base runtime")
+    for name, data in files.items():
+        (destination / name).write_bytes(data)
+    return len(files)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path)
     parser.add_argument("sha256")
     parser.add_argument("destination", type=Path)
+    parser.add_argument("--browser-update", nargs=2, metavar=("ZIP", "SHA256"))
     args = parser.parse_args()
     print(f"Verified and unpacked {extract(args.source, args.sha256, args.destination)} runtime files.")
+    if args.browser_update:
+        update, digest = args.browser_update
+        print(f"Applied {apply_browser_update(Path(update), digest, args.destination)} browser runtime files.")

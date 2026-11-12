@@ -33,6 +33,12 @@ Twenty fresh backup checks passed, covering download/restore/recovery, all 13 ch
 
 The 72-file runtime differs from the prior runtime only in controls.js, appended menu styles, and site status. Earlier control code is preserved as a byte prefix; the story, audio preferences module, original media, and executable are byte-identical. The previous three-run narrative evidence remains scoped to web.2; this update's fresh checks cover backup behavior and browser regressions. Application source, private test files, and detailed evidence stay outside this delivery repository.
 
+## Browser revision 116.1-web.4
+
+Ambient video and its timing manifest are deferred until the CRT needs them. Reduced motion uses the active phase's poster. The spark canvas skips empty frames, four legacy effects use visible-page timers at their existing update cadences, and three identical GIF references share one asset. The shorter prologue retains all footage. Automatic waits after name entry are 4.9 seconds shorter in total. Two existing interruptions now have uneven holds. Browser history restoration dismisses an interrupted prologue.
+
+JavaScript syntax checks and isolated runtime checks covered deferred media, reduced motion, ambient pause, mute, checkpoint data, and restoration from browser history. The clock retained its rendered glyphs and styles in 58 seeded comparisons. These checks do not measure physical-device frame rate or replay the complete story. The Windows download remains the original v116.1 build.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
