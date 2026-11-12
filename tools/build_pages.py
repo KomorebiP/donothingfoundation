@@ -36,6 +36,13 @@ def build(root: Path = ROOT) -> dict:
     if ready:
         copy_web(web / "bib", output / "experience")
         copy_web(web / "donation", output / "donation")
+        donation_index = output / "donation/index.html"
+        donation_html = donation_index.read_text(encoding="utf-8")
+        for attribute, filename in (("src", "preferences.js"), ("href", "controls.css"), ("src", "controls.js")):
+            donation_html = donation_html.replace(
+                f'{attribute}="../bib/{filename}"', f'{attribute}="../experience/{filename}"'
+            )
+        donation_index.write_text(donation_html, encoding="utf-8")
         examples = root / "studio_source/examples/v2_1"
         cards = []
         for name in ("linear_afterimage", "wrapped_field"):

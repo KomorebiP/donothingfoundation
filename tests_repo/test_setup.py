@@ -54,12 +54,26 @@ class SetupTests(unittest.TestCase):
                 (p / "index.html").write_text('<html>fixture</html>')
                 (p / ".env").write_text('private fixture')
                 (p / "server.py").write_text('private fixture')
+            web = root / "studio_source/web"
+            donation_html = (
+                '<script src="../bib/preferences.js"></script>'
+                '<link rel="stylesheet" href="../bib/controls.css">'
+                '<script src="../bib/controls.js"></script>'
+            )
+            (web / "donation/index.html").write_text(donation_html)
+            for filename in ("preferences.js", "controls.css", "controls.js"):
+                (web / "bib" / filename).write_text("shared control")
             result = mod.build(root)
             self.assertTrue(result["baseline_imported"])
             self.assertTrue((root / "_site/experience/index.html").exists())
             self.assertFalse((root / "_site/experience/.env").exists())
             self.assertFalse((root / "_site/experience/server.py").exists())
             self.assertIn('href="experience/"', (root / "_site/index.html").read_text())
+            self.assertEqual((web / "donation/index.html").read_text(), donation_html)
+            published_donation = (root / "_site/donation/index.html").read_text()
+            self.assertEqual(published_donation, donation_html.replace("../bib/", "../experience/"))
+            for filename in ("preferences.js", "controls.css", "controls.js"):
+                self.assertTrue((root / "_site/experience" / filename).is_file())
 
     def test_broken_import_does_not_fake_ready(self):
         mod = load("build_pages")
