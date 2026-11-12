@@ -4,7 +4,7 @@ Author: Komorebi P.
 
 BiB is an interactive CRT experience. The project site opens the browser edition and offers the Windows x64 application in its menu.
 
-The browser edition includes a touch-accessible intro skip and signal controls for motion, visual intensity, and audio. Story resets preserve those preferences.
+The browser edition includes a touch-accessible intro skip and signal controls for motion, visual intensity, audio level, and mute. Mute preserves the selected level and stays available during the ending. Story resets preserve those preferences.
 
 [Open BiB on GitHub Pages](https://komorebip.github.io/donothingfoundation/)
 
