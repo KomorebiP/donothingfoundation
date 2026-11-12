@@ -25,6 +25,14 @@ Recorded-media level checks, rendered procedural-audio samples, analyser routing
 
 A final continuous run against the completed update passed from visitor-name entry through all three runs, the ending, terminal card, reset, wake dismissal, and return to name entry. The visitor name, selected volume, mute, and unrelated local/session data were retained. This verifies that scripted path in headless Edge on Windows; it does not establish exhaustive branch coverage or native EXE behavior.
 
+## Browser revision 116.1-web.3
+
+Added browser checkpoint backups to the existing BiB menu. JSON downloads include the visitor name, completed signals, countdown state, and signal settings. Selecting a file previews its progress and audio/motion settings; confirmation preserves a recovery copy of the current checkpoint before restoring. Cancel, invalid files, and storage access failures leave progress intact. Partial write failures attempt rollback, with the recovery copy retained. Other origin data is excluded from both export and restore.
+
+Twenty fresh backup checks passed, covering download/restore/recovery, all 13 checkpoint fields, invalid and oversized files, unsupported versions and foreign keys, prototype-like keys, simulated local/session write failures, older settings, late asynchronous reads, and unavailable storage. Preview/restore controls passed at 1440 x 1000, 390 x 844, 320 x 568, and 740 x 320. A terminal input fixture verified that downloading a backup does not answer the final card. The existing four-viewport browser suite also passed.
+
+The 72-file runtime differs from the prior runtime only in controls.js, appended menu styles, and site status. Earlier control code is preserved as a byte prefix; the story, audio preferences module, original media, and executable are byte-identical. The previous three-run narrative evidence remains scoped to web.2; this update's fresh checks cover backup behavior and browser regressions. Application source, private test files, and detailed evidence stay outside this delivery repository.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
