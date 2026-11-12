@@ -36,7 +36,7 @@ BROWSER_ADDITIONS = {
     "web/bib/breach-entry.js",
     "web/bib/breach-art.js",
 }
-BROWSER_UPDATE = BROWSER_ADDITIONS | {
+PERFORMANCE_UPDATE = {
     "site-status.json",
     "web/bib/index.html",
     "web/bib/home.html",
@@ -44,6 +44,8 @@ BROWSER_UPDATE = BROWSER_ADDITIONS | {
     "web/bib/legacy/legacy.css",
     "web/bib/legacy/legacy_03.js",
 }
+BROWSER_UPDATE = PERFORMANCE_UPDATE | BROWSER_ADDITIONS
+INTERACTIVE_UPDATE = BROWSER_UPDATE | {"web/bib/controls.js", "web/bib/v116.css"}
 
 
 def runtime_files(archive):
@@ -110,8 +112,8 @@ def apply_browser_update(source, sha256, destination):
     with ZipFile(source) as archive:
         entries = archive.infolist()
         names = {info.filename for info in entries}
-        if names != BROWSER_UPDATE or len(entries) != len(names):
-            raise ValueError("The browser update must contain the expected runtime files")
+        if names not in (PERFORMANCE_UPDATE, BROWSER_UPDATE, INTERACTIVE_UPDATE) or len(entries) != len(names):
+            raise ValueError("The browser update must contain an exact supported set of runtime files")
         for info in entries:
             mode = stat.S_IFMT(info.external_attr >> 16)
             if mode not in (0, stat.S_IFREG) or info.file_size > 2 * 1024**2:
@@ -123,11 +125,12 @@ def apply_browser_update(source, sha256, destination):
     if ({key: value for key, value in updated.items() if key not in metadata}
             != {key: value for key, value in current.items() if key not in metadata}):
         raise ValueError("The browser update changes the base runtime status")
-    if updated.get("static_payload_files") != current["static_payload_files"] + len(BROWSER_ADDITIONS):
+    additions = names & BROWSER_ADDITIONS
+    if updated.get("static_payload_files") != current["static_payload_files"] + len(additions):
         raise ValueError("The browser update reports an incorrect payload count")
-    if any(not (destination / name).is_file() for name in names - BROWSER_ADDITIONS):
+    if any(not (destination / name).is_file() for name in names - additions):
         raise ValueError("A browser update target is missing from the base runtime")
-    if any((destination / name).exists() for name in BROWSER_ADDITIONS):
+    if any((destination / name).exists() for name in additions):
         raise ValueError("A browser addition overlaps the base runtime")
     for name, data in files.items():
         (destination / name).write_bytes(data)
