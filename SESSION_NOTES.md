@@ -55,6 +55,20 @@ A fresh continuous three-visit run passed natural receiver entry, the grounded r
 
 The cumulative thirteen-file overlay reconstructs all 77 runtime files byte-for-byte from the verified web.3 base. Only site status, legacy dialogue integration, controls, and appended styles differ from web.5. The extractor retains exact whitelists for the six-file, eleven-file, and thirteen-file overlays and checks additions before writing. Eleven new deployment-boundary tests cover supported overlays, digests, paths, duplicate entries, symlinks, size limits, base metadata, missing targets, addition collisions, and payload counts. The 27 repository tests passed.
 
+## Browser revision 116.1-web.7
+
+Repaired the readable surfaces after reports of broken screen loading and overlays. Name entry now sits on its own surface with a 16-pixel input and visible submit button. The receiver docks inside the desktop CRT, uses an opaque background, and hides the underlying HUD. Phones use a readable receiver panel and a larger CRT within a clipped viewport; short landscape windows retain the full set. The idle glass offers an explicit power-on action. Browser scripts, styles, imported controls CSS, and passage assets now share the same revision query so returning visitors can fetch a coherent build.
+
+Added an original procedural ink room around the physical set: converging doorways, engraved floorboards, scratched portraits, fine hatching, and peripheral eyes. Pointer gaze redraws on demand and settles to idle. Reduced motion, ambient pause, and a zero background level suppress pointer animation. No new image or audio files were added; existing media and the Windows executable are unchanged.
+
+Fresh checks at 1366 x 768, 1440 x 1000, 390 x 844, 320 x 568, and 740 x 320 cover name-entry font and hit targets, actual form submission, the power action, physical switch visibility, questions, glass bounds, receiver docking, opacity, hidden underlying text, traced results, and stopped redraws under pause/reduced motion/idle. Screenshots of phone questions and short-landscape power entry were visually inspected. Seventeen receiver interaction checks, four receiver layouts, twenty backup/restore checks, and four existing browser/gallery/reset/preference checks also passed. The 27 repository tests passed. These checks use headless Edge and emulated touch on Windows, rather than physical phones or native EXE execution.
+
+The cumulative thirteen-file overlay reconstructs all 77 tested runtime files. The existing controls are preserved as a byte prefix, with presentation appended. The original receiver outcomes, saved choice format, optional passage, media, and ending remain part of the build.
+
+A fresh continuous three-visit run used real timers to reach both receiver outcomes, changed questions, the original glass sequence, passage entry/return at the fifth fracture, the third ending, terminal controls, reset, wake readiness, wake dismissal, and name entry. Choice memory, volume, mute, and unrelated local/session data were retained. This verifies that scripted route, rather than exhaustive narrative coverage.
+
+A warm-cache regression reproduced the missing receiver by loading web.5 assets, serving web.6 in the same browser context, and observing that its unchanged asset URLs reused the cached scripts. Upgrading that context to web.7 fetched all fourteen scripts/styles under the new revision and restored the receiver and readable name-entry surface.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
