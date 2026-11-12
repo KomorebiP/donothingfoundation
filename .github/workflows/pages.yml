@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       runtime_sha256:
-        description: SHA-256 of the locally verified runtime ZIP
+        description: SHA-256 of the locally verified browser update ZIP
         required: true
         type: string
 permissions: {}
@@ -33,10 +33,14 @@ jobs:
           RELEASE_ID: "443449271"
           ASSET_ID: "740901991"
           STAGING_TAG: "v116.1-web.3-runtime"
+          UPDATE_SHA256: "b0376949378ad49ca50fbe7c6a08276d4eb6cb1037e13057009e70463c9f7f02"
+          UPDATE_RELEASE_ID: "443516375"
+          UPDATE_ASSET_ID: "741111164"
+          UPDATE_STAGING_TAG: "v116.1-web.4-runtime"
         run: |
           set -euo pipefail
-          if [[ -n "$REQUESTED_SHA256" && "$REQUESTED_SHA256" != "$EXPECTED_SHA256" ]]; then
-            echo "::error::The requested digest differs from the runtime pinned in this revision."
+          if [[ -n "$REQUESTED_SHA256" && "$REQUESTED_SHA256" != "$UPDATE_SHA256" ]]; then
+            echo "::error::The requested digest differs from the browser update pinned in this revision."
             exit 1
           fi
           draft=$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID")
@@ -59,7 +63,15 @@ jobs:
           fi
           archive="$RUNNER_TEMP/BiB_Web_Runtime_v116_1.zip"
           gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$archive"
-          python3 tools/extract_pages_runtime.py "$archive" "${digest#sha256:}" _site
+          update=$(gh api "repos/$GITHUB_REPOSITORY/releases/$UPDATE_RELEASE_ID")
+          jq -e --arg tag "$UPDATE_STAGING_TAG" --argjson id "$UPDATE_ASSET_ID" --arg digest "sha256:$UPDATE_SHA256" '
+            .draft == true and .tag_name == $tag and any(.assets[];
+              .id == $id and .name == "BiB_Web_Update_116_1_web_4.zip"
+              and .state == "uploaded" and .digest == $digest)
+          ' <<< "$update" >/dev/null
+          update_archive="$RUNNER_TEMP/BiB_Web_Update_116_1_web_4.zip"
+          gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$UPDATE_ASSET_ID" > "$update_archive"
+          python3 tools/extract_pages_runtime.py "$archive" "${digest#sha256:}" _site --browser-update "$update_archive" "$UPDATE_SHA256"
           echo "ready=true" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-pages-artifact@v4
         if: steps.runtime.outputs.ready == 'true'
