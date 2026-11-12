@@ -28,13 +28,20 @@ jobs:
         id: runtime
         env:
           GH_TOKEN: ${{ github.token }}
-          EXPECTED_SHA256: ${{ inputs.runtime_sha256 }}
-          RELEASE_ID: "443345171"
+          EXPECTED_SHA256: "909f7846057b48e0dc8865993f346bd8fdacc64a23623d7b8f37a7dc57485e8e"
+          REQUESTED_SHA256: ${{ inputs.runtime_sha256 }}
+          RELEASE_ID: "443384393"
+          ASSET_ID: "740707203"
+          STAGING_TAG: "v116.1-web.1-runtime"
         run: |
           set -euo pipefail
+          if [[ -n "$REQUESTED_SHA256" && "$REQUESTED_SHA256" != "$EXPECTED_SHA256" ]]; then
+            echo "::error::The requested digest differs from the runtime pinned in this revision."
+            exit 1
+          fi
           draft=$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID")
-          jq -e '.draft == true and .tag_name == "v116.1-runtime"' <<< "$draft" >/dev/null
-          asset=$(jq -c '[.assets[] | select(.name == "BiB_Web_Runtime_v116_1.zip" and .state == "uploaded")] | first // empty' <<< "$draft")
+          jq -e --arg tag "$STAGING_TAG" '.draft == true and .tag_name == $tag' <<< "$draft" >/dev/null
+          asset=$(jq -c --argjson id "$ASSET_ID" '[.assets[] | select(.id == $id and .name == "BiB_Web_Runtime_v116_1.zip" and .state == "uploaded")] | first // empty' <<< "$draft")
           if [[ -z "$asset" ]]; then
             if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
               echo "::error::The runtime ZIP is missing from the staging draft."
@@ -46,7 +53,7 @@ jobs:
           asset_id=$(jq -er '.id' <<< "$asset")
           digest=$(jq -er '.digest' <<< "$asset")
           [[ "$digest" =~ ^sha256:[a-f0-9]{64}$ ]]
-          if [[ -n "$EXPECTED_SHA256" && "$digest" != "sha256:$EXPECTED_SHA256" ]]; then
+          if [[ "$digest" != "sha256:$EXPECTED_SHA256" ]]; then
             echo "::error::GitHub's runtime digest differs from the verified local digest."
             exit 1
           fi

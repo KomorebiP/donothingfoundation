@@ -7,6 +7,14 @@ Date: 2026-11-12
 
 The public repository deploys the runtime only. The original source import workflow was retired. Use the runtime staging draft and the Pages workflow described in docs/GITHUB_SETUP.md. The earlier migration notes below document the scaffold before this change.
 
+## Browser revision 116.1-web.1
+
+Recovered the deployed Pages artifact into a private local working copy. Reproduced unrelated-storage deletion in all five legacy story-reset routines, then restricted them to exact BiB story/session keys. Preserved the visitor name, wake handling, and visual/audio preferences. Added a visible intro-skip button and a scrollable controls panel for short windows.
+
+Local verification covered the five reset routines, actual query-reset navigation, saved preferences, name entry, intro skipping, system reduced motion, and playback of both gallery clips. Browser checks passed at 1440 x 1000, 390 x 844, 320 x 568, and 740 x 320 in headless Edge on Windows, with no page errors or failed asset responses. These checks are not a complete narrative playthrough or native EXE runtime test. The Windows executable's bytes are unchanged.
+
+The new runtime has 72 files and is staged in a separate draft. Deployment now pins its release, asset, tag, and checksum; the earlier draft remains available for rollback. Application files, private test scripts, and detailed evidence remain outside the public repository.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
