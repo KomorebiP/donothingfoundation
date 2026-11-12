@@ -93,6 +93,16 @@ The seventeen-file cumulative overlay reconstructs all 79 tested runtime files f
 
 A fresh continuous three-visit run passed both receiver outcomes, changed questions, the original glass sequence, the current passage toolbar's return to the fifth fracture, the third ending, terminal controls, reset, wake readiness, wake dismissal and name entry. It used real timers and retained choice memory, mute, selected volume and foreign local/session data. This is a scripted route rather than exhaustive narrative coverage.
 
+## Browser revision 116.1-web.11
+
+Restored the CRT emphasis after the illustrated room obscured the original outer broadcast. The existing animated field now blends above the room and below the physical set. A separate interference canvas adds flowing cyan/magenta contours and tracking scars, with pointer response and a darker environment grade. The glass has stronger scan structure, phosphor bloom and a slow tracking roll; name entry and the receiver return to signal typography. Input surfaces stay fixed.
+
+The new canvas is capped at 600000 pixels (300000 on phones or low quality), runs at 8 to 12 frames per second while the CRT is on, and stops for pause, reduced motion, zero intensity, hidden pages and the passage. It draws no frames during the intro. All six layout checks passed from 320 x 568 through 3840 x 2160, including hit targets, receiver opacity, rendered 4K shell pixels and the new motion/pixel limits. The warm-cache upgrade fetched all fourteen revised scripts/styles while reusing unchanged artwork. Seventeen receiver and touch checks, twenty backup checks and the 29 repository tests passed.
+
+Four browser/gallery/reset layouts also passed. Five targeted lifecycle checks confirmed the original footage decodes and plays above the room, the interference advances, passage/visibility fixtures suspend and resume it, and pause stops the restored videos.
+
+The existing controls, receiver and backup code remain a byte-identical prefix after normalizing the revision string. Artwork, media, legacy story scripts, preferences and the Windows executable are byte-identical to web.10. The seventeen-file cumulative update reconstructs all 79 runtime files from the pinned web.3 base. This presentation update did not repeat the prior continuous three-visit ending run or native Windows testing.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.

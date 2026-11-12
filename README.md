@@ -12,7 +12,7 @@ The browser loads ambient video as each phase needs it. The prologue and automat
 
 The intro offers an immediate skip and uses a still image if video takes too long. The settings panels use larger touch targets and can be dismissed with Escape or a tap outside. Beyond the Glass keeps its return control available while loading and offers a retry if the passage stalls.
 
-An illustrated room surrounds the set, with damaged wallpaper, deep doorways, and a face in the shadows. Desktop and phone compositions have their own framing. Light from the CRT and a little movement add depth; reduced motion and ambient pause keep those effects still. As you tune a carrier, an image begins to resolve in the phosphor. Name entry has a visible submit button, and the idle screen offers **Power on the signal**. On larger displays, the receiver fits inside the CRT glass; phones use a readable instrument panel.
+The broadcast spills beyond the CRT into an illustrated room. The original animated signal organisms move above damaged wallpaper and deep doorways, with flowing cyan and magenta interference, phosphor bloom and tracking lines. Desktop and phone compositions have their own framing. Signal controls adjust the intensity; reduced motion and ambient pause keep the atmosphere still. As you tune a carrier, an image begins to resolve in the phosphor. Name entry has a visible submit button, and the idle screen offers **Power on the signal**. On larger displays, the receiver fits inside the CRT glass; phones use a readable instrument panel.
 
 At the fifth crack, **Step through the glass** opens an optional ink-drawn passage. You can return to the same fracture at any point.
 
