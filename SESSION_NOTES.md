@@ -15,6 +15,16 @@ Local verification covered the five reset routines, actual query-reset navigatio
 
 The new runtime has 72 files and is staged in a separate draft. Deployment now pins its release, asset, tag, and checksum; the earlier draft remains available for rollback. Application files, private test scripts, and detailed evidence remain outside the public repository.
 
+## Browser revision 116.1-web.2
+
+Reproduced a story cue overriding an audio-level setting of zero. Separated the story's cue volume from the visitor's selected level, updated all 28 cue-volume assignments, and applied the same level to procedural Web Audio. Media routed through the music analyser receives the user gain once. Added a persistent mute button that retains the selected level and synchronizes across tabs.
+
+Kept utility controls outside legacy story input handling and above the terminal input layer. The final card's input catcher now owns its events, preventing older capture handlers from scheduling competing resets. Removed the obsolete override of native immediate event propagation.
+
+Recorded-media level checks, rendered procedural-audio samples, analyser routing, reload persistence, cross-tab mute, and the media fallback without Web Audio passed. Four-viewport browser checks and all five storage-reset regressions passed. The scripted three-run route reached the final ending with mute enabled, using real timers and keyboard input. The terminal controls, reset, and wake dismissal also passed a separate coda fixture. These checks use disposable browser contexts; existing user saves and the Windows executable are unchanged.
+
+A final continuous run against the completed update passed from visitor-name entry through all three runs, the ending, terminal card, reset, wake dismissal, and return to name entry. The visitor name, selected volume, mute, and unrelated local/session data were retained. This verifies that scripted path in headless Edge on Windows; it does not establish exhaustive branch coverage or native EXE behavior.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
