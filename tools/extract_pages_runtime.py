@@ -47,6 +47,8 @@ PERFORMANCE_UPDATE = {
 BROWSER_UPDATE = PERFORMANCE_UPDATE | BROWSER_ADDITIONS
 INTERACTIVE_UPDATE = BROWSER_UPDATE | {"web/bib/controls.js", "web/bib/v116.css"}
 POLISHED_UPDATE = INTERACTIVE_UPDATE | {"web/bib/controls.css", "web/bib/legacy/legacy_02.js"}
+PRODUCTION_ADDITIONS = {"web/bib/assets/ink-room-desktop-v10.webp", "web/bib/assets/ink-room-phone-v10.webp"}
+PRODUCTION_UPDATE = POLISHED_UPDATE | PRODUCTION_ADDITIONS
 
 
 def runtime_files(archive):
@@ -113,7 +115,7 @@ def apply_browser_update(source, sha256, destination):
     with ZipFile(source) as archive:
         entries = archive.infolist()
         names = {info.filename for info in entries}
-        if names not in (PERFORMANCE_UPDATE, BROWSER_UPDATE, INTERACTIVE_UPDATE, POLISHED_UPDATE) or len(entries) != len(names):
+        if names not in (PERFORMANCE_UPDATE, BROWSER_UPDATE, INTERACTIVE_UPDATE, POLISHED_UPDATE, PRODUCTION_UPDATE) or len(entries) != len(names):
             raise ValueError("The browser update must contain an exact supported set of runtime files")
         for info in entries:
             mode = stat.S_IFMT(info.external_attr >> 16)
@@ -126,13 +128,15 @@ def apply_browser_update(source, sha256, destination):
     if ({key: value for key, value in updated.items() if key not in metadata}
             != {key: value for key, value in current.items() if key not in metadata}):
         raise ValueError("The browser update changes the base runtime status")
-    additions = names & BROWSER_ADDITIONS
+    additions = names & (BROWSER_ADDITIONS | PRODUCTION_ADDITIONS)
     if updated.get("static_payload_files") != current["static_payload_files"] + len(additions):
         raise ValueError("The browser update reports an incorrect payload count")
     if any(not (destination / name).is_file() for name in names - additions):
         raise ValueError("A browser update target is missing from the base runtime")
     if any((destination / name).exists() for name in additions):
         raise ValueError("A browser addition overlaps the base runtime")
+    if any(not (destination / name).parent.is_dir() for name in additions):
+        raise ValueError("A browser addition directory is missing from the base runtime")
     for name, data in files.items():
         (destination / name).write_bytes(data)
     return len(files)
