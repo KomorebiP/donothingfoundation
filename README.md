@@ -6,7 +6,7 @@ BiB is an interactive CRT experience. The project site opens the browser edition
 
 The browser edition includes a touch-accessible intro skip and signal controls for motion, visual intensity, audio level, and mute. Mute preserves the selected level and stays available during the ending. Story resets preserve those preferences.
 
-Open **BiB menu â†’ Saved progress** to download a browser backup or choose one to restore. Restore previews the saved visitor, completed signals, audio, and motion settings before replacing progress. **Download previous progress** retrieves a backup from before the last restore. Backups cover saved checkpoints; an unfinished scene starts again.
+Open **BiB menu → Saved progress** to download a browser backup or choose one to restore. Restore previews the saved visitor, completed signals, audio, and motion settings before replacing progress. **Download previous progress** retrieves a backup from before the last restore. Backups cover saved checkpoints; an unfinished scene starts again.
 
 The browser loads ambient video as each phase needs it. The prologue and automatic waits are shorter, with the existing footage and story beats intact.
 
@@ -16,7 +16,7 @@ An illustrated room surrounds the set, with damaged wallpaper, deep doorways, an
 
 At the fifth crack, **Step through the glass** opens an optional ink-drawn passage. You can return to the same fracture at any point.
 
-After entering your name, open **BiB menu â†’ Tune the signal**, or reach the receiver through the questions. Tune a voice, hold the small fracture, and trace a path across the glass. Holding the boundary and opening it lead to different outcomes; later visits remember the choice. **Guided tracing** supports keyboard and tap controls. **Use original glass** returns to the original fracture sequence before a choice is completed, including the optional passage.
+After entering your name, open **BiB menu → Tune the signal**, or reach the receiver through the questions. Tune a voice, hold the small fracture, and trace a path across the glass. Holding the boundary and opening it lead to different outcomes; later visits remember the choice. **Guided tracing** supports keyboard and tap controls. **Use original glass** returns to the original fracture sequence before a choice is completed, including the optional passage.
 
 [Open BiB on GitHub Pages](https://komorebip.github.io/donothingfoundation/)
 
