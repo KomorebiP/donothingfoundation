@@ -3,6 +3,10 @@
 Author: Komorebi P.
 Date: 2026-11-12
 
+## Public delivery update
+
+The public repository deploys the runtime only. The original source import workflow was retired. Use the runtime staging draft and the Pages workflow described in docs/GITHUB_SETUP.md. The earlier migration notes below document the scaffold before this change.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
