@@ -23,13 +23,14 @@ class BrowserUpdateTests(unittest.TestCase):
         self.base = self.root / "base"
         self.status = {"runtime_deployed": True, "live_renderer": False,
                        "windows_sha256": "original", "browser_revision": "old", "static_payload_files": 72}
-        self.files = {name: b"updated" for name in runtime.POLISHED_UPDATE}
-        self.files["site-status.json"] = json.dumps({**self.status, "static_payload_files": 77, "browser_revision": "new",
+        self.files = {name: b"updated" for name in runtime.PRODUCTION_UPDATE}
+        self.files["site-status.json"] = json.dumps({**self.status, "static_payload_files": 79, "browser_revision": "new",
                                                     "browser_changes": ["receiver"]}).encode()
         self.make_base(self.base)
 
     def make_base(self, directory):
-        for name in self.files.keys() - runtime.BROWSER_ADDITIONS:
+        (directory / "web/bib/assets").mkdir(parents=True, exist_ok=True)
+        for name in self.files.keys() - runtime.BROWSER_ADDITIONS - runtime.PRODUCTION_ADDITIONS:
             path = directory / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(json.dumps(self.status).encode() if name == "site-status.json" else b"original")
@@ -52,16 +53,14 @@ class BrowserUpdateTests(unittest.TestCase):
         self.assertEqual(before, {p.relative_to(self.base): p.read_bytes() for p in self.base.rglob("*") if p.is_file()})
 
     def test_all_supported_versions(self):
-        for names in (runtime.PERFORMANCE_UPDATE, runtime.BROWSER_UPDATE,
-                      runtime.INTERACTIVE_UPDATE, runtime.POLISHED_UPDATE):
+        for names in (runtime.PERFORMANCE_UPDATE, runtime.BROWSER_UPDATE, runtime.INTERACTIVE_UPDATE, runtime.POLISHED_UPDATE, runtime.PRODUCTION_UPDATE):
             with self.subTest(files=len(names)):
                 destination = self.root / str(len(names))
                 self.make_base(destination)
                 files = {name: self.files[name] for name in names}
-                if names == runtime.PERFORMANCE_UPDATE:
-                    status = json.loads(files["site-status.json"])
-                    status["static_payload_files"] = 72
-                    files["site-status.json"] = json.dumps(status).encode()
+                status = json.loads(files["site-status.json"])
+                status["static_payload_files"] = 72 + len(names & (runtime.BROWSER_ADDITIONS | runtime.PRODUCTION_ADDITIONS))
+                files["site-status.json"] = json.dumps(status).encode()
                 archive, digest = self.archive(files)
                 self.assertEqual(runtime.apply_browser_update(archive, digest, destination), len(names))
                 for name in names:
@@ -105,6 +104,16 @@ class BrowserUpdateTests(unittest.TestCase):
 
     def test_addition_cannot_replace_existing_file(self):
         (self.base / "web/bib/breach.js").write_bytes(b"existing")
+        self.reject_unchanged(*self.archive())
+
+    def test_artwork_cannot_replace_base_file(self):
+        path = self.base / "web/bib/assets/ink-room-phone-v10.webp"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"existing")
+        self.reject_unchanged(*self.archive())
+
+    def test_artwork_parent_must_exist_before_any_writes(self):
+        (self.base / "web/bib/assets").rmdir()
         self.reject_unchanged(*self.archive())
 
     def test_payload_count_must_match_additions(self):

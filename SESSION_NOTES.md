@@ -79,6 +79,20 @@ The two utility panels share larger touch targets and independent scrolling. Ope
 
 Live review found a horizontal scrollbar in the docked name panel caused by a one-pixel overflow. The panel clips inline overflow and keeps vertical scrolling.
 
+## Browser revision 116.1-web.10
+
+Rebuilt the environment around original generated illustrations, with separate landscape and portrait compositions. The room has dense material detail, damaged wallpaper, deep doorways and a watching face. CRT lighting, a floor shadow, subtle parallax and optical grain give the existing set more depth. Name entry, utility panels and the receiver have a consistent instrument finish. Tuning now resolves a face through the phosphor waveform, using the same artwork. The two optimized WebP images total 973242 bytes; private PNG masters and generation records are not included in Git or the runtime.
+
+The latest intro/video, ordinary name editing, mobile utility, passage retry and inline-overflow fixes from web.9 are retained. Artwork requests and canvas rendering wait until the intro finishes, with surface updates coalesced.
+
+The presentation uses a bounded canvas and stops JavaScript redraws when the pointer settles. Reduced motion and ambient pause stop the light animation and parallax. Artwork failure retains usable name and power controls. A 4K check exposed older duplicate shell fields obscuring the actual TV; those decorative duplicates are omitted on large displays, while the physical CRT and story effects remain. An unnecessary utility backdrop blur was removed.
+
+Six presentation viewports passed, from 320 x 568 through 3840 x 2160, including asset selection, actual hit targets, glass bounds, default receiver buttons, paused/reduced behavior and an artwork-failure fixture. The 4K TV shell was also checked in rendered pixels. A warm-cache upgrade in the same browser context fetched all fourteen scripts/styles under the new revision and loaded both art files. Seventeen receiver interaction checks, four receiver layouts, twenty backup/recovery checks and four browser/gallery/reset checks passed. The updated nested Saved progress and passage toolbar controls were exercised through their current UI. The 29 repository tests passed, including the new production overlay and addition-directory checks.
+
+The seventeen-file cumulative overlay reconstructs all 79 tested runtime files from the original verified web.3 base. The backup implementation remains a byte-identical prefix; receiver state/input/choice code is unchanged after normalizing the paint function and refresh hook. Legacy story, preferences, original media and the Windows executable are byte-identical to web.9. Native Windows execution and physical-phone testing remain separate tasks.
+
+A fresh continuous three-visit run passed both receiver outcomes, changed questions, the original glass sequence, the current passage toolbar's return to the fifth fracture, the third ending, terminal controls, reset, wake readiness, wake dismissal and name entry. It used real timers and retained choice memory, mute, selected volume and foreign local/session data. This is a scripted route rather than exhaustive narrative coverage.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
