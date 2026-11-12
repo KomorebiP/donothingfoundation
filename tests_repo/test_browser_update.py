@@ -23,7 +23,7 @@ class BrowserUpdateTests(unittest.TestCase):
         self.base = self.root / "base"
         self.status = {"runtime_deployed": True, "live_renderer": False,
                        "windows_sha256": "original", "browser_revision": "old", "static_payload_files": 72}
-        self.files = {name: b"updated" for name in runtime.INTERACTIVE_UPDATE}
+        self.files = {name: b"updated" for name in runtime.POLISHED_UPDATE}
         self.files["site-status.json"] = json.dumps({**self.status, "static_payload_files": 77, "browser_revision": "new",
                                                     "browser_changes": ["receiver"]}).encode()
         self.make_base(self.base)
@@ -52,7 +52,8 @@ class BrowserUpdateTests(unittest.TestCase):
         self.assertEqual(before, {p.relative_to(self.base): p.read_bytes() for p in self.base.rglob("*") if p.is_file()})
 
     def test_all_supported_versions(self):
-        for names in (runtime.PERFORMANCE_UPDATE, runtime.BROWSER_UPDATE, runtime.INTERACTIVE_UPDATE):
+        for names in (runtime.PERFORMANCE_UPDATE, runtime.BROWSER_UPDATE,
+                      runtime.INTERACTIVE_UPDATE, runtime.POLISHED_UPDATE):
             with self.subTest(files=len(names)):
                 destination = self.root / str(len(names))
                 self.make_base(destination)

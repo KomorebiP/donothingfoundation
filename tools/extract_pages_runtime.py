@@ -46,6 +46,7 @@ PERFORMANCE_UPDATE = {
 }
 BROWSER_UPDATE = PERFORMANCE_UPDATE | BROWSER_ADDITIONS
 INTERACTIVE_UPDATE = BROWSER_UPDATE | {"web/bib/controls.js", "web/bib/v116.css"}
+POLISHED_UPDATE = INTERACTIVE_UPDATE | {"web/bib/controls.css", "web/bib/legacy/legacy_02.js"}
 
 
 def runtime_files(archive):
@@ -112,7 +113,7 @@ def apply_browser_update(source, sha256, destination):
     with ZipFile(source) as archive:
         entries = archive.infolist()
         names = {info.filename for info in entries}
-        if names not in (PERFORMANCE_UPDATE, BROWSER_UPDATE, INTERACTIVE_UPDATE) or len(entries) != len(names):
+        if names not in (PERFORMANCE_UPDATE, BROWSER_UPDATE, INTERACTIVE_UPDATE, POLISHED_UPDATE) or len(entries) != len(names):
             raise ValueError("The browser update must contain an exact supported set of runtime files")
         for info in entries:
             mode = stat.S_IFMT(info.external_attr >> 16)

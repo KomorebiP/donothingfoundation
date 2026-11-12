@@ -33,10 +33,10 @@ jobs:
           RELEASE_ID: "443449271"
           ASSET_ID: "740901991"
           STAGING_TAG: "v116.1-web.3-runtime"
-          UPDATE_SHA256: "535ce8624278ccf367777480e6ca60bb02da0e1dfa5b603356be0c18aa36f0c6"
-          UPDATE_RELEASE_ID: "443567165"
-          UPDATE_ASSET_ID: "741273793"
-          UPDATE_STAGING_TAG: "v116.1-web.7-runtime"
+          UPDATE_SHA256: "57d3a56d2eca581c5035f2a503deec0accfacb0a52962264d73e373bd77ef9b4"
+          UPDATE_RELEASE_ID: "443601399"
+          UPDATE_ASSET_ID: "741389358"
+          UPDATE_STAGING_TAG: "v116.1-web.8-runtime"
         run: |
           set -euo pipefail
           if [[ -n "$REQUESTED_SHA256" && "$REQUESTED_SHA256" != "$UPDATE_SHA256" ]]; then
@@ -66,10 +66,10 @@ jobs:
           update=$(gh api "repos/$GITHUB_REPOSITORY/releases/$UPDATE_RELEASE_ID")
           jq -e --arg tag "$UPDATE_STAGING_TAG" --argjson id "$UPDATE_ASSET_ID" --arg digest "sha256:$UPDATE_SHA256" '
             .draft == true and .tag_name == $tag and any(.assets[];
-              .id == $id and .name == "BiB_Web_Update_116_1_web_7.zip"
+              .id == $id and .name == "BiB_Web_Update_116_1_web_8.zip"
               and .state == "uploaded" and .digest == $digest)
           ' <<< "$update" >/dev/null
-          update_archive="$RUNNER_TEMP/BiB_Web_Update_116_1_web_7.zip"
+          update_archive="$RUNNER_TEMP/BiB_Web_Update_116_1_web_8.zip"
           gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$UPDATE_ASSET_ID" > "$update_archive"
           python3 tools/extract_pages_runtime.py "$archive" "${digest#sha256:}" _site --browser-update "$update_archive" "$UPDATE_SHA256"
           echo "ready=true" >> "$GITHUB_OUTPUT"

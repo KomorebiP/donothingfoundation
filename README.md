@@ -10,6 +10,8 @@ Open **BiB menu → Saved progress** to download a browser backup or choose one 
 
 The browser loads ambient video as each phase needs it. The prologue and automatic waits are shorter, with the existing footage and story beats intact.
 
+The intro offers an immediate skip and uses a still image if video takes too long. The settings panels use larger touch targets and can be dismissed with Escape or a tap outside. Beyond the Glass keeps its return control available while loading and offers a retry if the passage stalls.
+
 An ink-drawn room surrounds the set: narrowing doorways, scratched portraits, and eyes that follow the pointer. Signal controls adjust its level and keep it still with reduced motion or ambient pause. Name entry has a visible submit button, and the idle screen offers **Power on the signal**. On larger displays, the receiver fits inside the CRT glass; phones use a readable instrument panel.
 
 At the fifth crack, **Step through the glass** opens an optional ink-drawn passage. You can return to the same fracture at any point.
