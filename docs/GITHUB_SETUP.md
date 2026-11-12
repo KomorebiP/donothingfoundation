@@ -16,7 +16,7 @@ Pages uses GitHub Actions. The Pages workflow builds `_site/` from the homepage 
 
 After import: homepage `/donothingfoundation/`, BiB `/donothingfoundation/experience/`, donation page `/donothingfoundation/donation/`, and rendered examples `/donothingfoundation/gallery/`. Before import, only a clearly labeled setup homepage exists.
 
-The import workflow explicitly invokes the reusable Pages workflow because GITHUB_TOKEN-created commits do not trigger ordinary push workflows. Subsequent user/Codex merges into main trigger Pages normally. Review Actions results before claiming deployment.
+The import workflow explicitly dispatches Checks and Pages on main because GITHUB_TOKEN-created commits do not trigger ordinary push workflows. Dispatching on main also avoids treating a release tag as the Pages deployment branch. Subsequent user/Codex merges into main trigger Pages normally. Review the separate Actions results before claiming tests or deployment succeeded. The import job needs contents:write and actions:write; the Pages job has its own pages/id-token permissions.
 
 ## Development and releases
 

@@ -5,8 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
-  pages: write
-  id-token: write
+  actions: write
 concurrency:
   group: import-baseline
   cancel-in-progress: false
@@ -41,6 +40,9 @@ jobs:
             git commit -m 'Import verified BiB 116.1 and Signal Studio 2.1 baseline'
             git push origin HEAD:main
           fi
-  pages:
-    needs: import
-    uses: ./.github/workflows/pages.yml
+      - name: Start main-branch checks and deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref main
+          gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
