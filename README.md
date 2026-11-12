@@ -10,6 +10,8 @@ Open **BiB menu → Saved progress** to download a browser backup or choose one 
 
 The browser loads ambient video as each phase needs it. The prologue and automatic waits are shorter, with the existing footage and story beats intact.
 
+At the fifth crack, **Step through the glass** opens an optional ink-drawn passage. You can return to the same fracture at any point.
+
 [Open BiB on GitHub Pages](https://komorebip.github.io/donothingfoundation/)
 
 This public repository contains Pages deployment files. The Go launcher, Python Signal Studio, and original development archive are kept private. The browser edition serves the runtime assets required to play BiB. The two Signal Studio clips are pre-rendered examples.

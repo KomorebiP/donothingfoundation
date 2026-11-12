@@ -29,7 +29,14 @@ REQUIRED = ROOT_FILES | {
     PurePosixPath("downloads/Go_LICENSE.txt"),
     WINDOWS_APP,
 }
-BROWSER_UPDATE = {
+BROWSER_ADDITIONS = {
+    "web/bib/breach.html",
+    "web/bib/breach.css",
+    "web/bib/breach.js",
+    "web/bib/breach-entry.js",
+    "web/bib/breach-art.js",
+}
+BROWSER_UPDATE = BROWSER_ADDITIONS | {
     "site-status.json",
     "web/bib/index.html",
     "web/bib/home.html",
@@ -104,7 +111,7 @@ def apply_browser_update(source, sha256, destination):
         entries = archive.infolist()
         names = {info.filename for info in entries}
         if names != BROWSER_UPDATE or len(entries) != len(names):
-            raise ValueError("The browser update must contain the six expected runtime files")
+            raise ValueError("The browser update must contain the expected runtime files")
         for info in entries:
             mode = stat.S_IFMT(info.external_attr >> 16)
             if mode not in (0, stat.S_IFREG) or info.file_size > 2 * 1024**2:
@@ -112,12 +119,16 @@ def apply_browser_update(source, sha256, destination):
         files = {info.filename: archive.read(info) for info in entries}
     current = json.loads((destination / "site-status.json").read_text())
     updated = json.loads(files["site-status.json"])
-    metadata = {"browser_revision", "browser_changes"}
+    metadata = {"browser_revision", "browser_changes", "static_payload_files"}
     if ({key: value for key, value in updated.items() if key not in metadata}
             != {key: value for key, value in current.items() if key not in metadata}):
         raise ValueError("The browser update changes the base runtime status")
-    if any(not (destination / name).is_file() for name in files):
+    if updated.get("static_payload_files") != current["static_payload_files"] + len(BROWSER_ADDITIONS):
+        raise ValueError("The browser update reports an incorrect payload count")
+    if any(not (destination / name).is_file() for name in names - BROWSER_ADDITIONS):
         raise ValueError("A browser update target is missing from the base runtime")
+    if any((destination / name).exists() for name in BROWSER_ADDITIONS):
+        raise ValueError("A browser addition overlaps the base runtime")
     for name, data in files.items():
         (destination / name).write_bytes(data)
     return len(files)
