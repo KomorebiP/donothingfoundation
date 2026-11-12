@@ -12,6 +12,8 @@ The browser loads ambient video as each phase needs it. The prologue and automat
 
 At the fifth crack, **Step through the glass** opens an optional ink-drawn passage. You can return to the same fracture at any point.
 
+After entering your name, open **BiB menu → Tune the signal**, or reach the receiver through the questions. Tune a voice, hold the small fracture, and trace a path across the glass. Holding the boundary and opening it lead to different outcomes; later visits remember the choice. **Guided tracing** supports keyboard and tap controls. **Use original glass** returns to the original fracture sequence before a choice is completed, including the optional passage.
+
 [Open BiB on GitHub Pages](https://komorebip.github.io/donothingfoundation/)
 
 This public repository contains Pages deployment files. The Go launcher, Python Signal Studio, and original development archive are kept private. The browser edition serves the runtime assets required to play BiB. The two Signal Studio clips are pre-rendered examples.

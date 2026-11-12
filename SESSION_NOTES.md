@@ -45,6 +45,16 @@ Added an optional passage at the fifth glass fracture. It has five ink-drawn sce
 
 Eight isolated JavaScript checks passed for fracture gating, keyboard focus, audio pause and resume, return handling, the branching scenes, reduced-motion propagation, and keeping the passage outside the checkpoint data. The Windows download stays on the original v116.1 build.
 
+## Browser revision 116.1-web.6
+
+Added a manual receiver after the questions and through the BiB menu after name entry. Two carriers reveal different voices. Holding and tracing the glass commits either a grounded boundary or an opening, with different returns to the existing story. Completed choices change subsequent questions and carrier positions. Only completed choices are saved; cancellation, power-off, and navigation abandon unfinished traces. Keyboard-guided tracing works with mute and reduced motion. The original glass route, optional passage, media, and Windows download are retained.
+
+Seventeen browser interaction checks passed, including actual mouse events, emulated touch cancellation and tracing, native range keys, guided tracing, changed questions, persistence, denied storage, and lifecycle cleanup. Four viewport sizes passed from 320 x 568 to 1440 x 1000, including short landscape. Twenty backup/restore checks passed with the additional validated carrier field; older backups remain supported. Existing browser, gallery, reset, preference, and reduced-motion checks also passed at four viewports. These are headless Edge checks on Windows, rather than physical-phone or native EXE tests.
+
+A fresh continuous three-visit run passed natural receiver entry, the grounded return, the opening and crash, changed questions, the original glass route, and entering/leaving the optional passage at the fifth fracture. It then reached the original ending, terminal card, reset, wake readiness, wake dismissal, and name entry with choice memory, mute, selected volume, and unrelated local/session data retained. This scripted route used real timers; it does not establish exhaustive narrative coverage.
+
+The cumulative thirteen-file overlay reconstructs all 77 runtime files byte-for-byte from the verified web.3 base. Only site status, legacy dialogue integration, controls, and appended styles differ from web.5. The extractor retains exact whitelists for the six-file, eleven-file, and thirteen-file overlays and checks additions before writing. Eleven new deployment-boundary tests cover supported overlays, digests, paths, duplicate entries, symlinks, size limits, base metadata, missing targets, addition collisions, and payload counts. The 27 repository tests passed.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
