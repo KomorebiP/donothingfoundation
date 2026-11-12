@@ -28,11 +28,11 @@ jobs:
         id: runtime
         env:
           GH_TOKEN: ${{ github.token }}
-          EXPECTED_SHA256: "bb1bf627de0f0a65af53d2d99c9b2694b4029477b1dc6a031b670da853549174"
+          EXPECTED_SHA256: "d4175c92b4600f9fa989b9747e123928997b094d80101c10327989bc96c27c45"
           REQUESTED_SHA256: ${{ inputs.runtime_sha256 }}
-          RELEASE_ID: "443417683"
-          ASSET_ID: "740811772"
-          STAGING_TAG: "v116.1-web.2-runtime"
+          RELEASE_ID: "443449271"
+          ASSET_ID: "740901991"
+          STAGING_TAG: "v116.1-web.3-runtime"
         run: |
           set -euo pipefail
           if [[ -n "$REQUESTED_SHA256" && "$REQUESTED_SHA256" != "$EXPECTED_SHA256" ]]; then
