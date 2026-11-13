@@ -103,6 +103,14 @@ Four browser/gallery/reset layouts also passed. Five targeted lifecycle checks c
 
 The existing controls, receiver and backup code remain a byte-identical prefix after normalizing the revision string. Artwork, media, legacy story scripts, preferences and the Windows executable are byte-identical to web.10. The seventeen-file cumulative update reconstructs all 79 runtime files from the pinned web.3 base. This presentation update did not repeat the prior continuous three-visit ending run or native Windows testing.
 
+## Browser revision 116.1-web.12
+
+Reframed the experience around the CRT glass. The display occupies roughly three quarters of the viewport height on desktop; responsive sizing keeps its glass and physical controls reachable. The illustrated room is recessed almost to black, and a mask shades the casing without dimming the image. Separate decorative shell copies are omitted. Original ambient broadcast footage and bounded raster interference now render inside the glass. Name entry is docked inside the display on all viewports and responds to the visible viewport while editing.
+
+The larger layout exposed a race in the opening outcome: the original reveal's queued first-crack animation could overwrite the completed carrier breach. That callback now stands down once the terminal outro begins. The receiver regression explicitly waits through two animation frames before checking that the breach persists. The receiver, backup and controls implementation otherwise remains unchanged before the presentation module; original media, artwork, preferences and Windows bytes are preserved.
+
+The cumulative seventeen-file overlay reconstructs all 79 runtime files. Validation covers six presentation layouts from 320 x 568 through 3840 x 2160, name entry inside the glass, physical hit targets, in-glass effects, motion/pixel limits, an artwork-failure fixture and a simulated reduced visible viewport. The warm-cache upgrade fetches fourteen revised scripts/styles and reuses unchanged art. Seventeen receiver/touch checks, twenty backup checks, four browser/gallery/reset layouts, five playback/lifecycle checks and 29 repository tests passed. A fresh real-timer three-visit route checks both carrier outcomes, original glass, passage return, the third ending, terminal controls, reset and wake readiness/dismissal. Native Windows execution, physical-phone keyboards and exhaustive narrative coverage remain separate verification tasks.
+
 ## Migration scope
 
 Created a separate GitHub project for Do Nothing Foundation, leaving the research repositories untouched. Baseline is BiB Desktop 116.1.0 plus Signal Studio 2.1 source. Added a hash-locked baseline importer, static Pages builder, CI configuration and Codex handoff.
